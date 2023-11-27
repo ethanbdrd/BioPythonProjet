@@ -49,11 +49,49 @@ def B():                                                                        
             count_cg += sequence.count('G')                                                             #et le nombre de G
             count_tot +=  sequence.count('A')                                                           #on ajoute au compteur total le nombre de A
             count_tot +=  sequence.count('T')                                                           #et de T
-            count_tot +=  sequence.count('C')                                                           #et de C
-            count_tot +=  sequence.count('G')                                                           #et de G
+            count_tot +=  count_cg                                                                      #et de CG
             pourcentage = (count_cg/count_tot)*100                                                      #on calcule le pourcentage de CG dans la sequence grace a ces variables
             fd.write("pourcentage de CG : "+str(pourcentage)+'%'+'\n')                                  #et on l'ecrit
             fd.write('\n')                                                                              #on saute une ligne pour que notre fichier soit plus lisible et séparer les genbank
             
-A()
-B()
+def C():                                                                                                #creer un fichier contenant les séquences protéiques de Spike pour chaque genbank
+    with open("spike.fasta","w") as fd:                                                                 #ouverture du fichier
+            fd.write("")                                                                                #mise du fichier a 0
+    with open("spike.fasta", "a") as fd:                                                                #ouverture du fichier en ajout
+        ma_seq = SeqIO.parse("seq_covid.gb","genbank")                                                  #lecture des genbanks dans le fichier qu'on met dans une variable
+        for seq in ma_seq:                                                                              #boucle qui itere de facon a separer les fichiers genbanks
+            organism = seq.annotations['organism']                                                      #recuperation du nom de l'organisme
+            for features in seq.features:                                                               #creation d'une boucle pour iterer sur chaque feature de notre genbank
+                if features.type == 'CDS':                                                              #on regarde si le type de feature est un gene et si c'est le cas :
+                    if features.qualifiers['gene'][0] == 'S':                                           #on regarde si c'est le gene S et si c'est le cas :
+                        proteine_id = features.qualifiers['protein_id'][0]                              #on recupere la protein id dans une variable
+                        translation =  features.qualifiers['translation'][0]                            #on recupere la traduction dans une variable
+                        product = features.qualifiers['product'][0]                                     #on recupere le product dans une variable
+                        fd.write(">"+proteine_id+" "+product+" "+organism+" "+'\n'+translation+"\n")    #on note tout dans le fichier afin de creer un fichier fasta complet
+
+
+from Bio.Align.Applications import MafftCommandline                            #imporation pour utilisation MAFFT
+
+def D():                                                                        #code copié-collé de moodle pour l'alignement
+    commande = MafftCommandline(input="spike.fasta")
+    myStdout, myStderr = commande()
+    with open("aln-spike.fasta", 'w') as w:
+        w.write(myStdout)
+
+def E():                                                                                                    #creer un fichier qui liste les positions où les sequences sont différentes
+    with open("resultatComparaison_geneS.txt","w") as fd:                                                   #ouverture du fichier
+            fd.write("")                                                                                    #mise du fichier a 0
+    with open("resultatComparaison_geneS.txt", "a") as fd:                                                  #ouverture du fichier en ajout
+        ma_seq = list(SeqIO.parse("aln-spike.fasta","fasta"))                                               #creation d'une liste d'element fasta      
+        fd.write("POSITION | HOMME | CHAUVE-SOURIS | PANGOLIN"+'\n')                                        #on écrit d'abord les colonnes dans notre fichier
+        seq_homme = ma_seq[0].seq                                                                           #on recupere la sequence de l'homme dans une variable
+        seq_chauve_souris = ma_seq[1].seq                                                                   #idem pour la chauve-souris
+        seq_pangolin = ma_seq[2].seq                                                                        #et pour le pangolin
+        for i in range(len(seq_homme)):                                                                     #en creer un boucle sur i en fonction de la taille de la sequences alignées
+            if (seq_homme[i]!=seq_chauve_souris[i]) or (seq_chauve_souris[i]!=seq_pangolin[i]):             #on regarde les lettre grace a l'indice i et si les lettres alignées sont différentes :
+                fd.write(str(i)+' | '+seq_homme[i]+' | '+seq_chauve_souris[i]+' | '+seq_pangolin[i]+'\n')   #on les notes dans notre fichier txt avec leur position
+
+
+
+
+
