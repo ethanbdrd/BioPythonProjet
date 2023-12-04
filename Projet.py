@@ -53,8 +53,10 @@ def B():                                                                        
             pourcentage = (count_cg/count_tot)*100                                                      #on calcule le pourcentage de CG dans la sequence grace a ces variables
             fd.write("pourcentage de CG : "+str(pourcentage)+'%'+'\n')                                  #et on l'ecrit
             fd.write('\n')                                                                              #on saute une ligne pour que notre fichier soit plus lisible et séparer les genbank
-            
-def C():                                                                                                #creer un fichier contenant les séquences protéiques de Spike pour chaque genbank
+
+                                                                                        
+def C(user_input):                                                                                      #creer un fichier contenant les séquences protéiques de Spike pour chaque
+                                                                                                        #genbank en fonction du parametre 'user_input' qui doit etre 'S' pour la fonction C ou 'S', 'M' ou 'N' pour 'G'
     with open("spike.fasta","w") as fd:                                                                 #ouverture du fichier
             fd.write("")                                                                                #mise du fichier a 0
     with open("spike.fasta", "a") as fd:                                                                #ouverture du fichier en ajout
@@ -63,7 +65,7 @@ def C():                                                                        
             organism = seq.annotations['organism']                                                      #recuperation du nom de l'organisme
             for features in seq.features:                                                               #creation d'une boucle pour iterer sur chaque feature de notre genbank
                 if features.type == 'CDS':                                                              #on regarde si le type de feature est un gene et si c'est le cas :
-                    if features.qualifiers['gene'][0] == 'S':                                           #on regarde si c'est le gene S et si c'est le cas :
+                    if features.qualifiers['gene'][0] == user_input:                                    #on regarde si c'est le gene de l'utiliateur et si c'est le cas :
                         proteine_id = features.qualifiers['protein_id'][0]                              #on recupere la protein id dans une variable
                         translation =  features.qualifiers['translation'][0]                            #on recupere la traduction dans une variable
                         product = features.qualifiers['product'][0]                                     #on recupere le product dans une variable
@@ -71,8 +73,7 @@ def C():                                                                        
 
 
 from Bio.Align.Applications import MafftCommandline                            #imporation pour utilisation MAFFT
-
-def D():                                                                        #code copié-collé de moodle pour l'alignement
+def D():                                                                       #code copié-collé de moodle pour l'alignement
     commande = MafftCommandline(input="spike.fasta")
     myStdout, myStderr = commande()
     with open("aln-spike.fasta", 'w') as w:
@@ -87,11 +88,41 @@ def E():                                                                        
         seq_homme = ma_seq[0].seq                                                                           #on recupere la sequence de l'homme dans une variable
         seq_chauve_souris = ma_seq[1].seq                                                                   #idem pour la chauve-souris
         seq_pangolin = ma_seq[2].seq                                                                        #et pour le pangolin
-        for i in range(len(seq_homme)):                                                                     #en creer un boucle sur i en fonction de la taille de la sequences alignées
+        for i in range(len(seq_homme)):                                                                     #en creer un boucle sur i en fonction de la taille de la sequences alignées qui itère sur chaque lettre
             if (seq_homme[i]!=seq_chauve_souris[i]) or (seq_chauve_souris[i]!=seq_pangolin[i]):             #on regarde les lettre grace a l'indice i et si les lettres alignées sont différentes :
                 fd.write(str(i)+' | '+seq_homme[i]+' | '+seq_chauve_souris[i]+' | '+seq_pangolin[i]+'\n')   #on les notes dans notre fichier txt avec leur position
 
 
 
 
+def F():                                                                                                                #fonction pour calculer le taux de convertion
+    count_cs=0                                                                                                          #initialisation d'une variable pour compter le nombre de lettre en commun  avec homme-chauve souris
+    count_p=0                                                                                                           #pareil pour homme-pangolin
+    ma_seq = list(SeqIO.parse("aln-spike.fasta","fasta"))                                                               #creation d'une liste d'element fasta      
+    seq_homme = ma_seq[0].seq                                                                                           #on recupere la sequence de l'homme dans une variable
+    seq_chauve_souris = ma_seq[1].seq                                                                                   #idem pour la chauve-souris
+    seq_pangolin = ma_seq[2].seq                                                                                        #et pour le pangolin
+    for i in range(len(seq_homme)):                                                                                     #en creer un boucle sur i en fonction de la taille de la sequences alignées qui itère sur chaque lettre
+        if (seq_homme[i]==seq_chauve_souris[i]):                                                                        #si les lettres alignées sont les mêmes:
+            count_cs+=1                                                                                                 #on ajoute 1 a count_cs
+        if (seq_homme[i]==seq_pangolin[i]):                                                                             #si les lettres alignées sont les mêmes:
+            count_p+=1                                                                                                  #on ajoute 1
+    resultat_taux_cs = (count_cs/len(seq_homme))*100                                                                    #a la fin de la boucle on calcule le pourcentage pour chauve souris
+    resultat_taux_pang = (count_p/len(seq_homme))*100                                                                   #idem pou pangolin
+    print("Taux de convertion de la proteine spike de l'homme vers la chauve souris est de ",resultat_taux_cs,"%.")     #on affiche le resultat de taux de convertion pour chauve souris
+    print("Taux de convertion de la proteine spike de l'homme vers le pangolin est de ",resultat_taux_pang,"%.")        #idem pour pangolin
 
+def G():
+    end = 0
+    while end ==0:
+        user_input = input('Choisissez un Gene entre S,M et N...')
+        if user_input == 'M' or user_input == 'N' or user_input =='S':
+            C(user_input)
+            D()
+            E()
+            F()
+            end=1
+            
+#Question H : les proteines presentes dans les 3 coronavirus sont tres similaires car pour chaques proteines, 
+    #on a un taux de de conservation superieur a 90%, le taux le plus remarquable est celui avec le gene M avec 98% et 99% de conservation.
+    #Alors oui les virus se ressemblent. Celui de l'homme et de la chauve-souris semblent etre les plus proches
