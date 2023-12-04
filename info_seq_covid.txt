@@ -1,0 +1,86 @@
+nom de l’organisme dont provient la donnée : Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)
+Taxonomie : ['Viruses', 'Riboviria', 'Orthornavirae', 'Pisuviricota', 'Pisoniviricetes', 'Nidovirales', 'Cornidovirineae', 'Coronaviridae', 'Orthocoronavirinae', 'Betacoronavirus', 'Sarbecovirus', 'Severe acute respiratory syndrome-related coronavirus']
+id de la sequence : NC_045512.2
+date de création de la donnée : 18-JUL-2020
+le gene n°1 est appelé ORF1ab. codon start = 265 et codon stop = 21555
+id de la proteine : YP_009724389.1
+id de la proteine : YP_009725295.1
+le gene n°2 est appelé S. codon start = 21562 et codon stop = 25384
+id de la proteine : YP_009724390.1
+le gene n°3 est appelé ORF3a. codon start = 25392 et codon stop = 26220
+id de la proteine : YP_009724391.1
+le gene n°4 est appelé E. codon start = 26244 et codon stop = 26472
+id de la proteine : YP_009724392.1
+le gene n°5 est appelé M. codon start = 26522 et codon stop = 27191
+id de la proteine : YP_009724393.1
+le gene n°6 est appelé ORF6. codon start = 27201 et codon stop = 27387
+id de la proteine : YP_009724394.1
+le gene n°7 est appelé ORF7a. codon start = 27393 et codon stop = 27759
+id de la proteine : YP_009724395.1
+le gene n°8 est appelé ORF7b. codon start = 27755 et codon stop = 27887
+id de la proteine : YP_009725318.1
+le gene n°9 est appelé ORF8. codon start = 27893 et codon stop = 28259
+id de la proteine : YP_009724396.1
+le gene n°10 est appelé N. codon start = 28273 et codon stop = 29533
+id de la proteine : YP_009724397.2
+le gene n°11 est appelé ORF10. codon start = 29557 et codon stop = 29674
+id de la proteine : YP_009725255.1
+nombre de gène : 11
+pourcentage de CG : 37.97277865097147%
+
+nom de l’organisme dont provient la donnée : Bat coronavirus RaTG13
+Taxonomie : ['Viruses', 'Riboviria', 'Orthornavirae', 'Pisuviricota', 'Pisoniviricetes', 'Nidovirales', 'Cornidovirineae', 'Coronaviridae', 'Orthocoronavirinae', 'Betacoronavirus', 'Sarbecovirus', 'Severe acute respiratory syndrome-related coronavirus']
+id de la sequence : MN996532.2
+date de création de la donnée : 24-NOV-2020
+le gene n°1 est appelé orf1ab. codon start = 265 et codon stop = 21552
+id de la proteine : QHR63299.2
+le gene n°2 est appelé S. codon start = 21559 et codon stop = 25369
+id de la proteine : QHR63300.2
+le gene n°3 est appelé NS3. codon start = 25377 et codon stop = 26205
+id de la proteine : QHR63301.1
+le gene n°4 est appelé E. codon start = 26229 et codon stop = 26457
+id de la proteine : QHR63302.1
+le gene n°5 est appelé M. codon start = 26507 et codon stop = 27173
+id de la proteine : QHR63303.1
+le gene n°6 est appelé NS6. codon start = 27183 et codon stop = 27369
+id de la proteine : QHR63304.1
+le gene n°7 est appelé NS7a. codon start = 27374 et codon stop = 27740
+id de la proteine : QHR63305.1
+le gene n°8 est appelé NS7b. codon start = 27736 et codon stop = 27868
+id de la proteine : QHR63306.1
+le gene n°9 est appelé NS8. codon start = 27874 et codon stop = 28240
+id de la proteine : QHR63307.1
+le gene n°10 est appelé N. codon start = 28254 et codon stop = 29514
+id de la proteine : QHR63308.1
+nombre de gène : 10
+pourcentage de CG : 38.03048065650645%
+
+nom de l’organisme dont provient la donnée : Pangolin coronavirus
+Taxonomie : ['Viruses', 'Riboviria', 'Orthornavirae', 'Pisuviricota', 'Pisoniviricetes', 'Nidovirales', 'Cornidovirineae', 'Coronaviridae', 'Orthocoronavirinae', 'Betacoronavirus', 'Sarbecovirus']
+id de la sequence : MT121216.1
+date de création de la donnée : 21-JUN-2021
+le gene n°1 est appelé orf1ab. codon start = 145 et codon stop = 21414
+id de la proteine : QIG55944.1
+le gene n°2 est appelé S. codon start = 21420 et codon stop = 25218
+id de la proteine : QIG55945.1
+le gene n°3 est appelé ORF3. codon start = 25226 et codon stop = 26054
+id de la proteine : QIG55946.1
+le gene n°4 est appelé E. codon start = 26078 et codon stop = 26306
+id de la proteine : QIG55947.1
+le gene n°5 est appelé M. codon start = 26356 et codon stop = 27025
+id de la proteine : QIG55948.1
+le gene n°6 est appelé ORF6. codon start = 27035 et codon stop = 27221
+id de la proteine : QIG55949.1
+le gene n°7 est appelé ORF7a. codon start = 27227 et codon stop = 27593
+id de la proteine : QIG55950.1
+le gene n°8 est appelé ORF7b. codon start = 27589 et codon stop = 27721
+id de la proteine : QIG55951.1
+le gene n°9 est appelé ORF8. codon start = 27727 et codon stop = 28045
+id de la proteine : QIG55952.1
+le gene n°10 est appelé N. codon start = 28059 et codon stop = 29319
+id de la proteine : QIG55953.1
+le gene n°11 est appelé ORF10. codon start = 29343 et codon stop = 29460
+id de la proteine : QIG55954.1
+nombre de gène : 11
+pourcentage de CG : 38.19315063852851%
+
