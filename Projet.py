@@ -20,7 +20,8 @@ def A():
             fd.write(ma_seq.format("gb"))                                                                       #ecriture du resultat dans notre fichier ouvert
         fic_seq.close()                                                                                         #fermeture de la variable de recherche
         
-        
+
+
 def B():                                                                                                #fonction qui pour chaque tour de boucle (chaque genbank) va noter les donnes dans un fichier 
     with open("info_seq_covid.txt","w") as fd:                                                          #ouverture du fichier
             fd.write("")                                                                                #mise du fichier a 0
@@ -54,7 +55,8 @@ def B():                                                                        
             fd.write("pourcentage de CG : "+str(pourcentage)+'%'+'\n')                                  #et on l'ecrit
             fd.write('\n')                                                                              #on saute une ligne pour que notre fichier soit plus lisible et séparer les genbank
 
-                                                                                        
+
+
 def C(user_input):                                                                                      #creer un fichier contenant les séquences protéiques de Spike pour chaque
                                                                                                         #genbank en fonction du parametre 'user_input' qui doit etre 'S' pour la fonction C ou 'S', 'M' ou 'N' pour 'G'
     with open("spike.fasta","w") as fd:                                                                 #ouverture du fichier
@@ -72,12 +74,14 @@ def C(user_input):                                                              
                         fd.write(">"+proteine_id+" "+product+" "+organism+" "+'\n'+translation+"\n")    #on note tout dans le fichier afin de creer un fichier fasta complet
 
 
+
 from Bio.Align.Applications import MafftCommandline                            #imporation pour utilisation MAFFT
 def D():                                                                       #code copié-collé de moodle pour l'alignement
     commande = MafftCommandline(input="spike.fasta")
     myStdout, myStderr = commande()
     with open("aln-spike.fasta", 'w') as w:
         w.write(myStdout)
+
 
 def E():                                                                                                    #creer un fichier qui liste les positions où les sequences sont différentes
     with open("resultatComparaison_geneS.txt","w") as fd:                                                   #ouverture du fichier
@@ -112,17 +116,101 @@ def F():                                                                        
     print("Taux de convertion de la proteine spike de l'homme vers la chauve souris est de ",resultat_taux_cs,"%.")     #on affiche le resultat de taux de convertion pour chauve souris
     print("Taux de convertion de la proteine spike de l'homme vers le pangolin est de ",resultat_taux_pang,"%.")        #idem pour pangolin
 
-def G():
-    end = 0
-    while end ==0:
-        user_input = input('Choisissez un Gene entre S,M et N...')
-        if user_input == 'M' or user_input == 'N' or user_input =='S':
-            C(user_input)
+
+def G():                                                                    #fonction qui demande à l'utilisateur le gene qui veut pour executer le code en fonction de sa réponse
+    end = 0                                                                 #initialisation d'une variable à 0
+    while end ==0:                                                          #creation d'une boucle while. Tant que l'utilisateur ne donne pas une réponse convenable, on lui repose la question
+        user_input = input('Choisissez un Gene entre S,M et N...')          #phrase qui demande le gene et permet une réponse pour l'utilisateur
+        if user_input == 'M' or user_input == 'N' or user_input =='S':      #si sa reponse est correcte ...
+            C(user_input)                                                   #on execute les fonctions...
             D()
             E()
             F()
-            end=1
-            
+            end=1                                                           #on met notre variable a 1 pour sortir du while
+
+
 #Question H : les proteines presentes dans les 3 coronavirus sont tres similaires car pour chaques proteines, 
     #on a un taux de de conservation superieur a 90%, le taux le plus remarquable est celui avec le gene M avec 98% et 99% de conservation.
     #Alors oui les virus se ressemblent. Celui de l'homme et de la chauve-souris semblent etre les plus proches
+
+def I():
+    with open("spike.gb","w") as fd:                                                #ouverture du fichier
+        fd.write("")                                                                #mise du fichier a 0
+    ma_seq = list(SeqIO.parse("spike.fasta","fasta"))                               #creation d'une liste d'element fasta      
+    rec_list = [ma_seq[0].id]+[ma_seq[1].id]+[ma_seq[2].id]                         #On crée un liste où chaque élément est une recherche pour le portail NCBI en fonction du gene choisi auparavant
+    for i in range(len(rec_list)):                                                  #Une boucle : pour chaque itération, un élément de recherche
+        Entrez.email = "exemple@toto.fr"                                            #email de reference
+        recherche = Entrez.esearch(db="Protein", term=rec_list[i])                  #recherche sur le portail NCBI dans la base de donnée Proteine la recherche qui correspond à l'élément de la liste
+        resultat_recherche = Entrez.read(recherche)                                 #conservation du resultat dans une variable(dictionnaire)
+        recherche.close()                                                           #fermeture du fichier car on en a plus besoin
+        id_list = resultat_recherche["IdList"]                                      #recupere les identifiant de sequences dans une liste
+        fic_seq = Entrez.efetch(db="Protein", id=id_list[0], rettype="gb")          #lance une recherche sur le portail NCBI avec le premier élément de la liste
+        ma_seq = SeqIO.read(fic_seq, "gb")                                          #on lit le resultat et le stock dans une variable
+        with open("spike.gb","a") as fd:                                            #ouverture du fichier en ajout
+            fd.write(ma_seq.format("gb"))                                           #ecriture du resultat dans notre fichier ouvert
+        fic_seq.close()                                                             #fermeture de la variable de recherche
+
+#FONCTIONS A EXECUTER
+
+#A()
+#B()
+#C('S')
+#D()
+#E()
+#F()
+#G()
+#I()
+#J()
+#K()
+
+                                                                               
+def J(fichier_voulu, format_fichier, penalite_decalage=-1, score_correspondance=1, penalite_non_correspondance=-1):                             #creation d'une fonction d'alignement en fonction d'un fichier choisi
+    with open("alignement.fasta","w") as fd:                                                                                                    #ouverture du fichier
+            fd.write("")                                                                                                                        #mise du fichier a 0         
+    ma_seq = list(SeqIO.parse(fichier_voulu,format_fichier))                                                                                    #creation d'une liste d'element fasta
+    for k in range(len(ma_seq)-1):                                                                                                              #boucle pour parcourir le fichier fasta
+        seq1 = ma_seq[0].seq                                                                                                                    #2 variables qui sont les sequences a aligner
+        seq2 = ma_seq[k+1].seq      
+        lignes, colonnes = len(seq1) + 1, len(seq2) + 1                                                                                         #Initialiser la matrice de score
+        matrice_score = [[0] * colonnes for _ in range(lignes)]
+        for i in range(1, lignes):                                                                                                              #Initialiser la première colonne et la première ligne avec les pénalités de décalage
+            matrice_score[i][0] = matrice_score[i-1][0] + penalite_decalage
+        for j in range(1, colonnes):
+            matrice_score[0][j] = matrice_score[0][j-1] + penalite_decalage
+        for i in range(1, lignes):                                                                                                              #Remplir la matrice de score en utilisant la programmation dynamique
+            for j in range(1, colonnes):                                                                                                        #double boucle
+                correspondance = matrice_score[i-1][j-1] + (score_correspondance if seq1[i-1] == seq2[j-1] else penalite_non_correspondance)
+                suppression = matrice_score[i-1][j] + penalite_decalage
+                insertion = matrice_score[i][j-1] + penalite_decalage
+                matrice_score[i][j] = max(correspondance, suppression, insertion) 
+        align1, align2 = '', ''                                                                                                                 #Effectuer la trace-back pour récupérer l'alignement
+        i, j = lignes - 1, colonnes - 1
+        while i > 0 or j > 0:
+            if i > 0 and matrice_score[i][j] == matrice_score[i-1][j] + penalite_decalage:
+                align1 = seq1[i-1] + align1
+                align2 = '-' + align2
+                i -= 1
+            elif j > 0 and matrice_score[i][j] == matrice_score[i][j-1] + penalite_decalage:
+                align1 = '-' + align1
+                align2 = seq2[j-1] + align2
+                j -= 1
+            else:
+                align1 = seq1[i-1] + align1
+                align2 = seq2[j-1] + align2
+                i -= 1
+                j -= 1
+        if k==0:
+            with open("alignement.fasta","a") as fd:                                                                                            #ouverture du fichier
+                fd.write(f'>{ma_seq[0].description}\n')
+                fd.write(align1 + '\n')
+                fd.write(f'>{ma_seq[k].description}\n')
+                fd.write(align2 + '\n')
+        else :
+            with open("alignement.fasta","a") as fd:                                                                                            #ouverture du fichier
+                fd.write(f'>{ma_seq[k].description}\n')
+                fd.write(align2 + '\n')
+        
+
+J('spike.fasta','fasta')
+
+            
