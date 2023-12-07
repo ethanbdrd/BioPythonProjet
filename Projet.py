@@ -150,21 +150,10 @@ def I():
             fd.write(ma_seq.format("gb"))                                           #ecriture du resultat dans notre fichier ouvert
         fic_seq.close()                                                             #fermeture de la variable de recherche
 
-#FONCTIONS A EXECUTER
 
-#A()
-#B()
-#C('S')
-#D()
-#E()
-#F()
-#G()
-#I()
-#J()
-#K()
 
                                                                                
-def J(fichier_voulu, format_fichier, penalite_decalage=-1, score_correspondance=1, penalite_non_correspondance=-1):                             #creation d'une fonction d'alignement en fonction d'un fichier choisi
+def J(fichier_voulu, format_fichier, penalite_decalage=-1, score_correspondance=1, penalite_non_correspondance=-1):                             #creation d'une fonction d'alignement en fonction d'un fichier choisi,on peut changer les valeurs pour le score
     with open("alignement.fasta","w") as fd:                                                                                                    #ouverture du fichier
             fd.write("")                                                                                                                        #mise du fichier a 0         
     ma_seq = list(SeqIO.parse(fichier_voulu,format_fichier))                                                                                    #creation d'une liste d'element fasta
@@ -199,18 +188,33 @@ def J(fichier_voulu, format_fichier, penalite_decalage=-1, score_correspondance=
                 align2 = seq2[j-1] + align2
                 i -= 1
                 j -= 1
-        if k==0:
+        if k==0:                                                                                                                                #si c'est la premiere fois qu'on ouvre le fichier
             with open("alignement.fasta","a") as fd:                                                                                            #ouverture du fichier
-                fd.write(f'>{ma_seq[0].description}\n')
-                fd.write(align1 + '\n')
-                fd.write(f'>{ma_seq[k].description}\n')
-                fd.write(align2 + '\n')
-        else :
+                fd.write(">"+ma_seq[0].description+" "+'\n'+align1+'\n')                                                                        #on escrit les 2 alignements
+                fd.write(">"+ma_seq[k+1].description+" "+'\n'+align2+'\n')
+        else :                                                                                                                                  #sinon
             with open("alignement.fasta","a") as fd:                                                                                            #ouverture du fichier
-                fd.write(f'>{ma_seq[k].description}\n')
-                fd.write(align2 + '\n')
+                fd.write(">"+ma_seq[k+1].description+" "+'\n'+align2+'\n')                                                                      #on ecrit que le 2ème pour éviter les doublons
+
+                
+    
         
 
-J('spike.fasta','fasta')
 
-            
+
+
+#FONCTIONS A EXECUTER
+
+#A()
+#B()
+#C('S')
+#D()
+#E()
+#F()
+#G()
+#I()
+#J('spike.fasta','fasta')
+
+
+
+
