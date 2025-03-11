@@ -1,4 +1,4 @@
-#Bio-Pyhton Uni Project
+# Bio-Pyhton Uni Project
 
 ## Genomic Analysis of COVID-19 Sequences
 
