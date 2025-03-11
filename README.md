@@ -1,4 +1,6 @@
-# Genomic Analysis of COVID-19 Sequences
+#Bio-Pyhton Uni Project
+
+## Genomic Analysis of COVID-19 Sequences
 
 ## Project Description
 This project retrieves, analyzes, and compares genetic sequences of different coronaviruses using data from the NCBI database. It extracts genetic information, analyzes gene compositions, aligns protein sequences, and identifies similarities between human, bat, and pangolin coronaviruses.
